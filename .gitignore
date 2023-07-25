@@ -1,0 +1,6 @@
+.git
+.idea
+secret.*
+**.terraform
+.terraform.lock.hcl
+.vscode

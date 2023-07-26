@@ -40,7 +40,7 @@ def generate_repo_block(repo_config):
             else:
                 terraform_block += f'  {attribute} = "{repo_config[attribute]}"\n'
 
-    terraform_block += "}\n"
+    terraform_block += "}\n\n"
 
     # Add branch protection if it's specified in the config
     if "branch_protections" in repo_config:

@@ -9,6 +9,7 @@ resource "github_repository" "kom-tf-modules" {
   archived = false
   gitignore_template = "Terraform"
 }
+
 resource "github_branch_protection_v3" "kom-tf-modules-protection" {
   depends_on  = [github_branch_default.kom-tf-modules_default]
   repository = github_repository.kom-tf-modules.name

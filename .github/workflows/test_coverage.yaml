@@ -1,0 +1,26 @@
+name: Run Tests and Measure Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: install -d
+        
+      - name: Run tests with coverage
+        run: |
+          make test
+
+      - name: Report coverage with Codecov
+        uses: codecov/codecov-action@v2

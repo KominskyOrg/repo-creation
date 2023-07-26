@@ -14,15 +14,15 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: '3.10'
+          cache: 'pipenv'
 
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        uses: VaultVulp/action-pipenv@v2.0.1
         with:
-          command: install -d
+          command: make setup
         
       - name: Run tests with coverage
         run: |

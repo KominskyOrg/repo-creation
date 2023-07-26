@@ -57,6 +57,8 @@ def test_generate_repo_block():
     assert 'description = "Test repository"' in result
     assert "has_issues = true" in result
     assert 'resource "github_branch_protection_v3" "test-repo-protection"' in result
+    assert f'resource "github_branch" "{repo_config["name"]}_main"' in result
+    assert f'resource "github_branch_default" "{repo_config["name"]}_default"' in result
 
 
 def test_parse_json_config():

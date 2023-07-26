@@ -47,6 +47,9 @@ def generate_repo_block(repo_config):
         protection_config = repo_config["branch_protections"]
         terraform_block += f'resource "github_branch_protection_v3" "{repo_config["name"]}-protection" {{\n'
         terraform_block += (
+            f'  depends_on  = [github_branch_default.{repo_config["name"]}_default]\n'
+        )
+        terraform_block += (
             f'  repository = github_repository.{repo_config["name"]}.node_id\n'
         )
         terraform_block += (
@@ -75,7 +78,22 @@ def generate_repo_block(repo_config):
             terraform_block += "  }\n"
 
         terraform_block += "}\n"
+    terraform_block += generate_branch_and_default_block(repo_config["name"])
     return terraform_block
+
+
+def generate_branch_and_default_block(repo_name):
+    return f"""
+resource "github_branch" "{repo_name}_main" {{
+  repository = github_repository.{repo_name}.name
+  branch     = "main"
+}}
+
+resource "github_branch_default" "{repo_name}_default" {{
+  repository = github_repository.{repo_name}.name
+  branch     = github_branch.{repo_name}_main.branch
+}}
+"""
 
 
 def parse_json_config(file_path):

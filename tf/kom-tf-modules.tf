@@ -11,7 +11,7 @@ resource "github_repository" "kom-tf-modules" {
 }
 resource "github_branch_protection_v3" "kom-tf-modules-protection" {
   depends_on  = [github_branch_default.kom-tf-modules_default]
-  repository = github_repository.kom-tf-modules.node_id
+  repository = github_repository.kom-tf-modules.name
   branch       = "main"
   enforce_admins = false
   required_pull_request_reviews {

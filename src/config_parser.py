@@ -50,7 +50,7 @@ def generate_repo_block(repo_config):
             f'  depends_on  = [github_branch_default.{repo_config["name"]}_default]\n'
         )
         terraform_block += (
-            f'  repository = github_repository.{repo_config["name"]}.node_id\n'
+            f'  repository = github_repository.{repo_config["name"]}.name\n'
         )
         terraform_block += (
             f'  branch       = "{protection_config.get("branch", "main")}"\n'

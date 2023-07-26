@@ -1,7 +1,7 @@
 name: Run Tests and Measure Coverage
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -13,12 +13,14 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: main
 
       - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-          cache: 'pipenv'
+          cache: 'pip'
 
       - name: Install dependencies
         run: make setup
@@ -28,3 +30,9 @@ jobs:
 
       - name: Report coverage with Codecov
         uses: codecov/codecov-action@v2
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true

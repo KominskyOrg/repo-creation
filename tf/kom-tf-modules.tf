@@ -15,6 +15,10 @@ resource "github_branch_protection_v3" "kom-tf-modules-protection" {
   repository = github_repository.kom-tf-modules.name
   branch       = "main"
   enforce_admins = false
+  required_status_checks {
+    strict   = true
+    checks = ["Run Tests and Measure Coverage / test"]
+  }
   required_pull_request_reviews {
     dismiss_stale_reviews = true
     dismissal_users = []

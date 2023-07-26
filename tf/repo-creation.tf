@@ -15,6 +15,10 @@ resource "github_branch_protection_v3" "repo-creation-protection" {
   repository     = github_repository.repo-creation.name
   branch         = "main"
   enforce_admins = false
+  required_status_checks {
+    strict = true
+    checks = ["ci-test"]
+  }
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
     dismissal_users            = []

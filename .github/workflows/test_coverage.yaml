@@ -28,8 +28,3 @@ jobs:
 
       - name: Report coverage with Codecov
         uses: codecov/codecov-action@v2
-
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"

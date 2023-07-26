@@ -1,14 +1,9 @@
 setup:
-	pipenv install
-
-apply:
-	cd tf && terraform apply -var-file=secret.tfvars
-
-plan:
-	cd tf && terraform plan -var-file=secret.tfvars
+	pip install pipenv
+	pipenv sync --dev
 
 test: setup
-	pipenv run pytest tests/test_repo_config_parser.py
+	pipenv run pytest tests
 
 run: setup
 	pipenv run python src/terraform_creation.py

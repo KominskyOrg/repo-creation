@@ -4,7 +4,6 @@ from config_parser import parse_json_config
 
 
 def generate_all_terraform_files(config_dir_path):
-    print(config_dir_path)
     """
     Generate Terraform files for all JSON config files in the given directory.
     """
@@ -21,6 +20,7 @@ def generate_all_terraform_files(config_dir_path):
         # (e.g., 'config1.json' becomes 'config1.tf')
         tf_filename = f"{os.path.splitext(os.path.basename(json_file))[0]}.tf"
         tf_file_path = os.path.join(os.path.dirname(config_dir_path), "tf", tf_filename)
+        os.makedirs(os.path.dirname(tf_file_path), exist_ok=True)
 
         # write the Terraform code to a file
         with open(tf_file_path, "w") as tf_file:

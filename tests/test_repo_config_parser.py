@@ -55,7 +55,7 @@ def test_generate_repo_block():
     assert 'resource "github_repository" "test-repo"' in result
     assert 'name        = "test-repo"' in result
     assert 'description = "Test repository"' in result
-    assert "has_issues  = true" in result
+    assert "has_issues = true" in result
     assert 'resource "github_branch_protection_v3" "test-repo-protection"' in result
 
 

@@ -1,18 +1,32 @@
 import json
 
-
 def load_json_config(file_path):
     with open(file_path) as f:
         data = json.load(f)
     return data
 
+# Helper function to generate optional attributes
+def generate_optional_attributes(resource_config, optional_attributes):
+    attributes_block = ""
+    for attribute in optional_attributes:
+        if attribute in resource_config:
+            if isinstance(resource_config[attribute], bool):
+                attributes_block += (
+                    f"  {attribute} = {str(resource_config[attribute]).lower()}\n"
+                )
+            else:
+                attributes_block += f'  {attribute} = "{resource_config[attribute]}"\n'
+    return attributes_block
 
-def generate_repo_block(repo_config):
-    terraform_block = f'resource "github_repository" "{repo_config["name"]}" {{\n'
-    terraform_block += f'  name        = "{repo_config["name"]}"\n'
-    terraform_block += f'  description = "{repo_config.get("description", "")}"\n'
-    terraform_block += f'  visibility  = "{repo_config.get("visibility", "private")}"\n'
-
+# Function to generate github_repository block
+def generate_github_repository_block(repo_config):
+    # Main attributes
+    repo_block = f"""resource "github_repository" "{repo_config["name"]}" {{
+  name        = "{repo_config["name"]}"
+  description = "{repo_config.get("description", "")}"
+  visibility  = "{repo_config.get("visibility", "private")}"\n"""
+    
+    # Optional attributes
     optional_attributes = [
         "homepage_url",
         "has_issues",
@@ -30,70 +44,156 @@ def generate_repo_block(repo_config):
         "license_template",
         "gitignore_template",
     ]
+    repo_block += generate_optional_attributes(repo_config, optional_attributes)
+    
+    repo_block += "}\n"
+    
+    return repo_block
 
-    for attribute in optional_attributes:
-        if attribute in repo_config:
-            if isinstance(repo_config[attribute], bool):
-                terraform_block += (
-                    f"  {attribute} = {str(repo_config[attribute]).lower()}\n"
-                )
-            else:
-                terraform_block += f'  {attribute} = "{repo_config[attribute]}"\n'
+# Function to generate github_branch block
+def generate_github_branch_block(branch_config):
+    # Main attributes
+    branch_block = f"""resource "github_branch" "{branch_config["name"]}_main" {{
+  repository = github_repository.{branch_config["name"]}.name
+  branch     = "{branch_config.get("branch", "main")}"\n"""
+    
+    # There are no optional attributes for this resource according to the docs
+    
+    branch_block += "}\n"
+    
+    return branch_block
 
-    terraform_block += "}\n\n"
+# Function to generate github_branch_default block
+def generate_github_branch_default_block(default_config):
+    # Main attributes
+    default_block = f"""resource "github_branch_default" "{default_config["name"]}_default" {{
+  repository = github_repository.{default_config["name"]}.name
+  branch     = github_branch.{default_config["name"]}_main.branch\n"""
+    
+    # There are no optional attributes for this resource according to the docs
+    
+    default_block += "}\n"
+    
+    return default_block
 
-    # Add branch protection if it's specified in the config
-    if "branch_protections" in repo_config:
-        protection_config = repo_config["branch_protections"]
-        terraform_block += f'resource "github_branch_protection_v3" "{repo_config["name"]}-protection" {{\n'
-        terraform_block += (
-            f'  depends_on  = [github_branch_default.{repo_config["name"]}_default]\n'
-        )
-        terraform_block += (
-            f'  repository = github_repository.{repo_config["name"]}.name\n'
-        )
-        terraform_block += (
-            f'  branch       = "{protection_config.get("branch", "main")}"\n'
-        )
-        terraform_block += f'  enforce_admins = {str(protection_config.get("enforce_admins", False)).lower()}\n'
+# Function to generate github_branch_protection_v3 block
+def generate_github_branch_protection_v3_block(protection_config):
+    # Main attributes
+    protection_block = f"""resource "github_branch_protection_v3" "{protection_config["name"]}-protection" {{
+  depends_on  = [github_branch_default.{protection_config["name"]}_default]
+  repository = github_repository.{protection_config["name"]}.name
+  branch       = "{protection_config.get("branch", "main")}"\n"""
+    
+    # Optional attributes
+    optional_attributes = [
+        "enforce_admins",
+        "require_signed_commits",
+        "requires_approving_reviews",
+        "requires_code_owner_reviews",
+        "requires_commit_signatures",
+        "allows_deletions",
+        "allows_force_pushes",
+        # The following nested blocks will be handled separately
+        # "required_status_checks",
+        # "required_pull_request_reviews",
+        # "restrictions",
+    ]
+    protection_block += generate_optional_attributes(protection_config, optional_attributes)
+    
+    # Nested blocks (to be added)
+    # ...
+    
+    protection_block += "}\n"
+    
+    return protection_block
 
-        if "required_status_checks" in protection_config:
-            checks_config = protection_config["required_status_checks"]
-            terraform_block += "  required_status_checks {\n"
-            terraform_block += (
-                f'    strict   = {str(checks_config.get("strict", False)).lower()}\n'
-            )
-            terraform_block += (
-                f'    checks = {json.dumps(checks_config.get("contexts", []))}\n'
-            )
-            terraform_block += "  }\n"
+# Function to generate required_status_checks block
+def generate_required_status_checks_block(checks_config):
+    # Only generate this block if "required_status_checks" is in the config
+    if "required_status_checks" in checks_config:
+        checks_block = """  required_status_checks {\n"""
+        
+        # Optional attributes
+        optional_attributes = [
+            "strict",
+            "contexts",
+        ]
+        checks_block += generate_optional_attributes(checks_config["required_status_checks"], optional_attributes)
+        
+        checks_block += "  }\n"
+        
+        return checks_block
+    else:
+        return ""
 
-        if "required_pull_request_reviews" in protection_config:
-            reviews_config = protection_config["required_pull_request_reviews"]
-            terraform_block += "  required_pull_request_reviews {\n"
-            terraform_block += f'    dismiss_stale_reviews = {str(reviews_config.get("dismiss_stale_reviews", False)).lower()}\n'
-            terraform_block += f'    dismissal_users = {json.dumps(reviews_config.get("dismissal_users", []))}\n'
-            terraform_block += f'    dismissal_teams = {json.dumps(reviews_config.get("dismissal_teams", []))}\n'
-            terraform_block += f'    require_code_owner_reviews = {str(reviews_config.get("require_code_owner_reviews", False)).lower()}\n'
-            terraform_block += "  }\n"
+# Function to generate required_pull_request_reviews block
+def generate_required_pull_request_reviews_block(reviews_config):
+    # Only generate this block if "required_pull_request_reviews" is in the config
+    if "required_pull_request_reviews" in reviews_config:
+        reviews_block = """  required_pull_request_reviews {\n"""
+        
+        # Optional attributes
+        optional_attributes = [
+            "dismiss_stale_reviews",
+            "dismissal_users",
+            "dismissal_teams",
+            "require_code_owner_reviews",
+        ]
+        reviews_block += generate_optional_attributes(reviews_config["required_pull_request_reviews"], optional_attributes)
+        
+        reviews_block += "  }\n"
+        
+        return reviews_block
+    else:
+        return ""
 
-        terraform_block += "}\n"
-    terraform_block += generate_branch_and_default_block(repo_config["name"])
-    return terraform_block
+# Function to generate restrictions block
+def generate_restrictions_block(restrictions_config):
+    # Only generate this block if "restrictions" is in the config
+    if "restrictions" in restrictions_config:
+        restrictions_block = """  restrictions {\n"""
+        
+        # Optional attributes
+        optional_attributes = [
+            "users",
+            "teams",
+        ]
+        restrictions_block += generate_optional_attributes(restrictions_config["restrictions"], optional_attributes)
+        
+        restrictions_block += "  }\n"
+        
+        return restrictions_block
+    else:
+        return ""
 
-
-def generate_branch_and_default_block(repo_name):
-    return f"""
-resource "github_branch" "{repo_name}_main" {{
-  repository = github_repository.{repo_name}.name
-  branch     = "main"
-}}
-
-resource "github_branch_default" "{repo_name}_default" {{
-  repository = github_repository.{repo_name}.name
-  branch     = github_branch.{repo_name}_main.branch
-}}
-"""
+# Update the generate_github_branch_protection_v3_block function to include these nested blocks
+def generate_github_branch_protection_v3_block(protection_config):
+    # Main attributes
+    protection_block = f"""resource "github_branch_protection_v3" "{protection_config["name"]}-protection" {{
+  depends_on  = [github_branch_default.{protection_config["name"]}_default]
+  repository = github_repository.{protection_config["name"]}.name
+  branch       = "{protection_config.get("branch", "main")}"\n"""
+    
+    # Optional attributes
+    optional_attributes = [
+        "enforce_admins",
+        "require_signed_commits",
+        "requires_approving_reviews",
+        "requires_code_owner_reviews",
+        "requires_commit_signatures",
+        "allows_deletions",
+        "allows_force_pushes",
+    ]
+    protection_block += generate_optional_attributes(protection_config, optional_attributes)
+    
+    # Nested blocks
+    protection_block += generate_required_status_checks_block(protection_config)
+    protection_block += generate_required_pull_request_reviews_block(protection_config)
+    protection_block += generate_restrictions_block(protection_config)
+    
+    protection_block += "}\n"
+    
+    return protection_block
 
 
 def parse_json_config(file_path):
@@ -103,8 +203,14 @@ def parse_json_config(file_path):
         data = [data]
     main_tf_content = ""
     for repo_config in data:
-        repo_block = generate_repo_block(repo_config)
-        main_tf_content += repo_block
+        # Generate blocks for each resource
+        repo_block = generate_github_repository_block(repo_config)
+        branch_block = generate_github_branch_block(repo_config)
+        default_block = generate_github_branch_default_block(repo_config)
+        protection_block = generate_github_branch_protection_v3_block(repo_config)
+        
+        # Combine all blocks
+        main_tf_content += repo_block + branch_block + default_block + protection_block
     return main_tf_content
 
 

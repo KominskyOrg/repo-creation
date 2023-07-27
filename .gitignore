@@ -1,6 +1,6 @@
 .git
 .idea
-secret.*
+tf/secret.*
 **.terraform
 .terraform.lock.hcl
 .vscode

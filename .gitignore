@@ -1,9 +1,10 @@
 .git
 .idea
-secret.*
+tf/secret.*
 **.terraform
 .terraform.lock.hcl
 .vscode
 **__pycache__
 .pytest_cache
 .coverage
+tests/test_config.json

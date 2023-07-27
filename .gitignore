@@ -7,3 +7,4 @@ tf/secret.*
 **__pycache__
 .pytest_cache
 .coverage
+tests/test_config.json

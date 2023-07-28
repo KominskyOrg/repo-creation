@@ -21,4 +21,14 @@ resource "github_branch_protection_v3" "kom-tf-modules-protection" {
   depends_on = [github_branch_default.kom-tf-modules_default]
   repository = github_repository.kom-tf-modules.name
   branch     = "main"
+  required_status_checks {
+    strict = true
+  }
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  restrictions {
+    users = ["jaredkominsky"]
+  }
 }

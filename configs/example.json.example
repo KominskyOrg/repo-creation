@@ -14,17 +14,10 @@
   "archived": false,
   "topics": [],
   "vulnerability_alerts": false,
-  "automated_security_fixes": false,
   "license_template": "",
   "gitignore_template": "",
   "branch": "main",
   "enforce_admins": false,
-  "require_signed_commits": false,
-  "requires_approving_reviews": false,
-  "requires_code_owner_reviews": false,
-  "requires_commit_signatures": false,
-  "allows_deletions": false,
-  "allows_force_pushes": false,
   "required_status_checks": {
     "strict": false,
     "contexts": []

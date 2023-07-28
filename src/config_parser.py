@@ -49,7 +49,6 @@ def generate_github_repository_block(repo_config):
         "archived",
         "topics",
         "vulnerability_alerts",
-        "automated_security_fixes",
         "license_template",
         "gitignore_template",
     ]
@@ -131,7 +130,7 @@ def generate_required_status_checks_block(checks_config):
         # Optional attributes
         optional_attributes = [
             "strict",
-            "contexts",
+            "checks",
         ]
         checks_block += generate_optional_attributes(
             checks_config["required_status_checks"], optional_attributes

@@ -123,70 +123,64 @@ def generate_github_branch_protection_v3_block(protection_config):
 
 # Function to generate required_status_checks block
 def generate_required_status_checks_block(checks_config):
-    # Only generate this block if "required_status_checks" is in the config
-    if "required_status_checks" in checks_config:
-        checks_block = """  required_status_checks {\n"""
-
-        # Optional attributes
-        optional_attributes = [
-            "strict",
-            "checks",
-        ]
-        checks_block += generate_optional_attributes(
-            checks_config["required_status_checks"], optional_attributes
-        )
-
-        checks_block += "  }\n"
-
-        return checks_block
-    else:
+    if "required_status_checks" not in checks_config:
         return ""
+    checks_block = """  required_status_checks {\n"""
+
+    # Optional attributes
+    optional_attributes = [
+        "strict",
+        "checks",
+    ]
+    checks_block += generate_optional_attributes(
+        checks_config["required_status_checks"], optional_attributes
+    )
+
+    checks_block += "  }\n"
+
+    return checks_block
 
 
 # Function to generate required_pull_request_reviews block
 def generate_required_pull_request_reviews_block(reviews_config):
-    # Only generate this block if "required_pull_request_reviews" is in the config
-    if "required_pull_request_reviews" in reviews_config:
-        reviews_block = """  required_pull_request_reviews {\n"""
-
-        # Optional attributes
-        optional_attributes = [
-            "dismiss_stale_reviews",
-            "dismissal_users",
-            "dismissal_teams",
-            "require_code_owner_reviews",
-        ]
-        reviews_block += generate_optional_attributes(
-            reviews_config["required_pull_request_reviews"], optional_attributes
-        )
-
-        reviews_block += "  }\n"
-
-        return reviews_block
-    else:
+    if "required_pull_request_reviews" not in reviews_config:
         return ""
+    reviews_block = """  required_pull_request_reviews {\n"""
+
+    # Optional attributes
+    optional_attributes = [
+        "dismiss_stale_reviews",
+        "dismissal_users",
+        "dismissal_teams",
+        "require_code_owner_reviews",
+    ]
+    reviews_block += generate_optional_attributes(
+        reviews_config["required_pull_request_reviews"], optional_attributes
+    )
+
+    reviews_block += "  }\n"
+
+    return reviews_block
 
 
 # Function to generate restrictions block
 def generate_restrictions_block(restrictions_config):
-    # Only generate this block if "restrictions" is in the config
-    if "restrictions" in restrictions_config:
-        restrictions_block = """  restrictions {\n"""
-
-        # Optional attributes
-        optional_attributes = [
-            "users",
-            "teams",
-        ]
-        restrictions_block += generate_optional_attributes(
-            restrictions_config["restrictions"], optional_attributes
-        )
-
-        restrictions_block += "  }\n"
-
-        return restrictions_block
-    else:
+    if "restrictions" not in restrictions_config:
         return ""
+    restrictions_block = """  restrictions {\n"""
+
+    # Optional attributes
+    optional_attributes = [
+        "users",
+        "teams",
+    ]
+    restrictions_block += generate_optional_attributes(
+        restrictions_config["restrictions"], optional_attributes
+    )
+
+    restrictions_block += "  }\n"
+
+    return restrictions_block
 
 
 # Update the generate_github_branch_protection_v3_block function to include these nested blocks

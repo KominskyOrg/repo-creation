@@ -2,6 +2,7 @@ resource "github_repository" "kom-tf-modules" {
   name        = "kom-tf-modules"
   description = "Repo that holds all modules used by KominskyOrg"
   visibility  = "private"
+  auto_init   = "true"
   allow_merge_commit = false
   allow_rebase_merge = false
   allow_squash_merge = true

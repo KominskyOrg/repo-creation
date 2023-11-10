@@ -33,7 +33,8 @@ def generate_github_repository_block(repo_config):
     repo_block = f"""resource "github_repository" "{repo_config["name"]}" {{
   name        = "{repo_config["name"]}"
   description = "{repo_config.get("description", "")}"
-  visibility  = "{repo_config.get("visibility", "private")}"\n"""
+  visibility  = "{repo_config.get("visibility", "private")}"
+  auto_init   = "{repo_config.get("auto_init", "true")}"\n"""
 
     # Optional attributes
     optional_attributes = [

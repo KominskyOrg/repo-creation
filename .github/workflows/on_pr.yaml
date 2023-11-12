@@ -40,7 +40,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
 
-  name: "Terraform Plan"
+  terraform-plan:
     runs-on: ubuntu-latest
     permissions:
       contents: read

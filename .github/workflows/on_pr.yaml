@@ -72,9 +72,6 @@ jobs:
       - name: Run Script
         run: make run
 
-      - name: List
-        run: ls -al
-
       - name: Upload Configuration
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
         id: plan-upload

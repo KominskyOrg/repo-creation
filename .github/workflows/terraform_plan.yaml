@@ -7,7 +7,7 @@ env:
   TF_CLOUD_ORGANIZATION: "${{ secrets.TF_ORG_NAME }}"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "repo-creation"
-  CONFIG_DIRECTORY: "./"
+  CONFIG_DIRECTORY: "./tf/"
 
 jobs:
   terraform:
@@ -19,6 +19,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: "pipenv"
+
+      - name: Install dependencies
+        run: make setup
+
+      - name: Run Script
+        run: make run
+
+      - name: List
+        run: ls -al
 
       - name: Upload Configuration
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0

@@ -7,7 +7,7 @@ env:
   TF_CLOUD_ORGANIZATION: "${{ secrets.TF_ORG_NAME }}"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "repo-creation"
-  CONFIG_DIRECTORY: "tf/"
+  CONFIG_DIRECTORY: "./"
 
 jobs:
   terraform:

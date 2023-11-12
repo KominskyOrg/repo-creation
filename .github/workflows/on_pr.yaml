@@ -1,5 +1,4 @@
-name: CI Repo-Creation
-
+name: Test and Terraform Plan
 on:
   pull_request:
     branches:

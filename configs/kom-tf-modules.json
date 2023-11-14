@@ -1,7 +1,7 @@
 {
   "name": "kom-tf-modules",
   "description": "Repo that holds all modules used by KominskyOrg",
-  "private": false,
+  "visibility": "public",
   "gitignore_template": "Terraform",
   "allow_merge_commit": false,
   "allow_squash_merge": true,

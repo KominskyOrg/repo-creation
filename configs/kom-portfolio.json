@@ -1,7 +1,7 @@
 {
   "name": "kom-portfolio",
   "description": "Repo to hold all source code for website portfolio.",
-  "private": false,
+  "visibility": "public",
   "gitignore_template": "",
   "allow_merge_commit": false,
   "allow_squash_merge": true,

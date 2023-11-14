@@ -1,7 +1,7 @@
 {
   "name": "kom-tf-modules",
   "description": "Repo that holds all modules used by KominskyOrg",
-  "private": true,
+  "private": false,
   "gitignore_template": "Terraform",
   "allow_merge_commit": false,
   "allow_squash_merge": true,
@@ -10,18 +10,14 @@
   "archived": false,
   "required_status_checks": {
     "strict": true,
-    "contexts": [
-      "test"
-    ]
+    "contexts": ["test"]
   },
   "required_pull_request_reviews": {
     "dismiss_stale_reviews": true,
     "require_code_owner_reviews": true
   },
   "restrictions": {
-    "users": [
-      "jaredkominsky"
-    ]
+    "users": ["jaredkominsky"]
   },
   "required_linear_history": true,
   "allow_force_pushes": false,

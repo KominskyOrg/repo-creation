@@ -1,7 +1,7 @@
 resource "github_repository" "repo-creation" {
   name                   = "repo-creation"
   description            = "Repo that holds all repo configs used by KominskyOrg"
-  visibility             = "private"
+  visibility             = "public"
   allow_merge_commit     = false
   allow_rebase_merge     = false
   allow_squash_merge     = true

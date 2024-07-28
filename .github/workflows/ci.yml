@@ -51,6 +51,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           fail_ci_if_error: ${{ github.event_name == 'pull_request' }}
+          files: "./.coverage"
 
   terraform:
     needs: test

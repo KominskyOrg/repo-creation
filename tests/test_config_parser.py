@@ -31,10 +31,10 @@ def test_generate_optional_attributes():
 
 def test_generate_required_status_checks_block():
     checks_config = {
-        "required_status_checks": {"strict": True, "checks": ["check1", "check2"]}
+        "required_status_checks": {"strict": True, "contexts": ["check1", "check2"]}
     }
     result = generate_required_status_checks_block(checks_config)
-    expected_result = '  required_status_checks {\n  strict = true\n  checks = ["check1", "check2"]\n  }\n'
+    expected_result = '  required_status_checks {\n  strict = true\n  contexts = ["check1", "check2"]\n  }\n'
     assert result == expected_result
 
 

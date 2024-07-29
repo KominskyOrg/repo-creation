@@ -8,3 +8,4 @@ tf/secret.*
 .pytest_cache
 .coverage
 tests/test_config.json
+*.xml

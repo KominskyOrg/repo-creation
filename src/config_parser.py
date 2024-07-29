@@ -105,17 +105,10 @@ def generate_github_branch_protection_v3_block(protection_config):
         "requires_commit_signatures",
         "allows_deletions",
         "allows_force_pushes",
-        # The following nested blocks will be handled separately
-        # "required_status_checks",
-        # "required_pull_request_reviews",
-        # "restrictions",
     ]
     protection_block += generate_optional_attributes(
         protection_config, optional_attributes
     )
-
-    # Nested blocks (to be added)
-    # ...
 
     protection_block += "}\n"
 

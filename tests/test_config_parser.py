@@ -6,7 +6,39 @@ from src.config_parser import (
     generate_required_pull_request_reviews_block,
     generate_restrictions_block,
     parse_json_config,
+    generate_github_branch_protection_v3_block,
 )
+
+def test_generate_github_branch_protection_v3_block():
+    protection_config = {
+        "name": "test-repo",
+        "branch": "main",
+        "enforce_admins": True,
+        "require_signed_commits": True,
+        "requires_approving_reviews": 2,
+        "requires_code_owner_reviews": True,
+        "requires_commit_signatures": False,
+        "allows_deletions": False,
+        "allows_force_pushes": False
+    }
+    
+    result = generate_github_branch_protection_v3_block(protection_config)
+    
+    expected_result = '''resource "github_branch_protection_v3" "test-repo-protection" {
+  depends_on  = [github_branch_default.test-repo_default]
+  repository = github_repository.test-repo.name
+  branch       = "main"
+  enforce_admins = true
+  require_signed_commits = true
+  requires_approving_reviews = "2"
+  requires_code_owner_reviews = true
+  requires_commit_signatures = false
+  allows_deletions = false
+  allows_force_pushes = false
+}
+'''
+    
+    assert result == expected_result
 
 
 def test_load_json_config():

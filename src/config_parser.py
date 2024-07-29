@@ -131,7 +131,7 @@ def generate_required_status_checks_block(checks_config):
     # Optional attributes
     optional_attributes = [
         "strict",
-        "checks",
+        "contexts",
     ]
     checks_block += generate_optional_attributes(
         checks_config["required_status_checks"], optional_attributes

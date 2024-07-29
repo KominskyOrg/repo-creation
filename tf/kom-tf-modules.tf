@@ -24,6 +24,7 @@ resource "github_branch_protection_v3" "kom-tf-modules-protection" {
   branch       = "main"
   required_status_checks {
   strict = true
+  contexts = ["test"]
   }
   required_pull_request_reviews {
   dismiss_stale_reviews = true

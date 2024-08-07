@@ -1,5 +1,5 @@
 {
-    "name": "kom-logging",
+    "name": "kom-python-logging",
     "description": "Repo to hold logging package for KominskyOrg python logging.",
     "visibility": "public",
     "gitignore_template": "",

@@ -56,8 +56,6 @@ jobs:
           files: "./.coverage"
 
   terraform:
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
-    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read

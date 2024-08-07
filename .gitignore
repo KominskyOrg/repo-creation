@@ -2,17 +2,18 @@
 /.git
 
 # IDE specific files
-/.idea
-/.vscode
+/.idea/
+/.vscode/
+/.DS_Store
 
 # Terraform related files
 tf/secret.*
-**/.terraform
+**/.terraform/
 /.terraform.lock.hcl
 
 # Python specific files
-**/__pycache__
-/.pytest_cache
+**/__pycache__/
+/.pytest_cache/
 /.coverage
 /coverage.xml
 

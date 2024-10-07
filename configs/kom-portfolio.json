@@ -2,24 +2,48 @@
   "name": "kom-portfolio",
   "description": "Repo to hold all source code for website portfolio.",
   "visibility": "public",
-  "gitignore_template": "",
   "allow_merge_commit": false,
   "allow_squash_merge": true,
   "allow_rebase_merge": false,
   "delete_branch_on_merge": true,
   "archived": false,
-  "required_status_checks": {
-    "strict": true,
-    "contexts": ["test"]
-  },
-  "required_pull_request_reviews": {
-    "dismiss_stale_reviews": true,
-    "require_code_owner_reviews": true
-  },
-  "restrictions": {
-    "users": ["jaredkominsky"]
-  },
-  "required_linear_history": true,
-  "allow_force_pushes": false,
-  "allow_deletions": false
+  "topics": [],
+  "vulnerability_alerts": false,
+  "license_template": "",
+  "branches": [
+    {
+      "name": "main",
+      "is_default": true,
+      "protection": {
+        "enforce_admins": true,
+        "require_signed_commits": false,
+        "requires_approving_reviews": false,
+        "requires_code_owner_reviews": true,
+        "requires_commit_signatures": false,
+        "allows_deletions": false,
+        "allows_force_pushes": false,
+        "required_status_checks": {
+          "strict": false,
+          "contexts": []
+        },
+        "required_pull_request_reviews": {
+          "dismiss_stale_reviews": true,
+          "dismissal_users": [],
+          "dismissal_teams": [],
+          "require_code_owner_reviews": true
+        },
+        "restrictions": {
+          "users": ["jaredkominsky"],
+          "teams": []
+        }
+      }
+    }
+  ],
+  "collaborators": [
+      {
+          "username": "jaredkominsky",
+          "permission": "admin"
+      }
+  ]
 }
+

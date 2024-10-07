@@ -1,8 +1,8 @@
 {
-    "name": "auth_service",
-    "description": "Service to authenticate users.",
+    "name": "kom_reusable_workflows",
+    "description": "Repo to hold resuable GitHub Actions workflows",
     "visibility": "public",
-    "gitignore_template": "Python",
+    "gitignore_template": "",
     "allow_merge_commit": false,
     "allow_squash_merge": true,
     "allow_rebase_merge": false,
@@ -10,7 +10,7 @@
     "archived": false,
     "required_status_checks": {
       "strict": true,
-      "contexts": ["test"]
+      "contexts": []
     },
     "required_pull_request_reviews": {
       "dismiss_stale_reviews": true,

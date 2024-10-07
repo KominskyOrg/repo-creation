@@ -2,6 +2,7 @@ import os
 import glob
 from config_parser import parse_json_config
 
+
 def generate_all_terraform_files(config_dir_path):
     """
     Generate Terraform files for all JSON config files in the given directory.

@@ -1,6 +1,6 @@
 {
-    "name": "auth_api",
-    "description": "API to authenticate and manage users",
+    "name": "template_api",
+    "description": "Template repo for the api layer of a stack",
     "visibility": "public",
     "gitignore_template": "Python",
     "allow_merge_commit": false,

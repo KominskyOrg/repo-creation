@@ -1,8 +1,8 @@
 {
-    "name": "template_api",
-    "description": "Template repo for the api layer of a stack",
+    "name": "template_app",
+    "description": "Template repo for the app layer of a stack",
     "visibility": "public",
-    "gitignore_template": "Python",
+    "gitignore_template": "Node",
     "allow_merge_commit": false,
     "allow_squash_merge": true,
     "allow_rebase_merge": false,

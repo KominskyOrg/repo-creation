@@ -1,6 +1,6 @@
 {
-    "name": "template_api",
-    "description": "Template repo for the api layer of a stack",
+    "name": "template_service",
+    "description": "Template repo for the service layer of a stack",
     "visibility": "public",
     "gitignore_template": "Python",
     "allow_merge_commit": false,
